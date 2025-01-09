@@ -1,0 +1,27 @@
+name: This is a CD for deploying using terraform once i'll learn how to deploy using terraform
+
+on:
+  workflow_dispatch:
+    inputs:
+      PR_number:
+        description: 'Pull request number'
+        required: true
+jobs:
+  create:
+    name: 'Create a staging deploy'
+    defaults: 
+      run:
+        shell: bash
+
+    runs-on: ubuntu-latest
+
+    steps:
+
+    - name: Log the Pull request number and the pull request details and the secrets
+      uses: actions/github-script@v5
+      id: verify_pr
+      with:
+          github-token: ${{ secrets.GITHUB_TOKEN }}
+          result-encoding: string
+          script: |
+             console.log(secrets);
