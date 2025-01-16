@@ -2,6 +2,8 @@ name: tutorial
 
 on: 
     push:
+        paths:
+            - 'README.md'
         branches: 
             - main
     pull_request:
