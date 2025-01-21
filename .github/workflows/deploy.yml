@@ -1,8 +1,9 @@
 name: THIS IS THE WORKFLOW FOR DEPLOYING TO GH PAGES
-on: [push]
-  branches:
-    - main
-    - master
+on:
+  push:
+    branches:
+      - main
+      - master
 permissions:
   contents: write
 jobs:
