@@ -1,14 +1,14 @@
 name: tutorial
 
 on: 
-    push:
-        paths:
-            - 'README.md'
-        branches: 
-            - main
-    pull_request:
-        branches:
-            - main
+    # push:
+    #     paths:
+    #         - 'README.md'
+    #     branches: 
+    #         - main
+    # pull_request:
+    #     branches:
+    #         - main
     workflow_dispatch:
 
 jobs:

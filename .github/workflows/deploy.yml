@@ -1,5 +1,8 @@
-name: Build and Deploy
+name: THIS IS THE WORKFLOW FOR DEPLOYING TO GH PAGES
 on: [push]
+  branches:
+    - main
+    - master
 permissions:
   contents: write
 jobs:
