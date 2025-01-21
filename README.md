@@ -1,41 +1,50 @@
-# github-actions-video-course
-This is a repository I am using to follow a tutorial on github
+# React + TypeScript + Vite
 
+This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
 
-## Workflow environment variables
+Currently, two official plugins are available:
 
-To set up a workflow-level environment variable, we must define it at the top level of the YAML file. Let’s add the following underneath the NAME variable at the top of the file:
+- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react/README.md) uses [Babel](https://babeljs.io/) for Fast Refresh
+- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
 
-`
-env:
-  NAME: 'Snyk Demo'
-`
-This code defines an environment variable called NAME that we can now access anywhere within our workflow. To access this variable, we must use a specific syntax similar to that used when accessing UNIX environment variables. To use our NAME variable, we must prefix it with a dollar sign, changing the variable to $NAME.
+## Expanding the ESLint configuration
 
-`
-- name: Print name
-  run: echo "Hello $NAME"
-`
+If you are developing a production application, we recommend updating the configuration to enable type aware lint rules:
 
-## Job environment variables
-Now, let’s look at setting up job and step environment variables. These can be set up the same way as our workflow environment variables, but we define them within the relevant section.
+- Configure the top-level `parserOptions` property like this:
 
-For our job variable, we want to define the Java version as follows:
+```js
+export default tseslint.config({
+  languageOptions: {
+    // other options...
+    parserOptions: {
+      project: ['./tsconfig.node.json', './tsconfig.app.json'],
+      tsconfigRootDir: import.meta.dirname,
+    },
+  },
+})
+```
 
-`
-jobs:
-  build:
-    env:
-        JAVA_VERSION: '21'
-`
+- Replace `tseslint.configs.recommended` to `tseslint.configs.recommendedTypeChecked` or `tseslint.configs.strictTypeChecked`
+- Optionally add `...tseslint.configs.stylisticTypeChecked`
+- Install [eslint-plugin-react](https://github.com/jsx-eslint/eslint-plugin-react) and update the config:
 
-`
-steps:
-- uses: actions/checkout@v3
-- name: Set up JDK ${{env.JAVA_VERSION}}
-  uses: actions/setup-java@v3
-  with:
-    java-version: ${{env.JAVA_VERSION}}
-    distribution: 'temurin'
-    cache: maven
-`
+```js
+// eslint.config.js
+import react from 'eslint-plugin-react'
+
+export default tseslint.config({
+  // Set the react version
+  settings: { react: { version: '18.3' } },
+  plugins: {
+    // Add the react plugin
+    react,
+  },
+  rules: {
+    // other rules...
+    // Enable its recommended rules
+    ...react.configs.recommended.rules,
+    ...react.configs['jsx-runtime'].rules,
+  },
+})
+```
